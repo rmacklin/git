@@ -1263,6 +1263,30 @@ test_expect_success '__git_complete_fetch_refspecs - fully qualified & prefix' '
 	test_cmp expected out
 '
 
+test_expect_success '__git_complete_worktree_paths' '
+	test_when_finished "git worktree remove other_wt" &&
+	git worktree add --orphan other_wt &&
+	run_completion "git worktree remove " &&
+	grep other_wt out
+'
+
+test_expect_success '__git_complete_worktree_paths - not a git repository' '
+	(
+		cd non-repo &&
+		GIT_CEILING_DIRECTORIES="$ROOT" &&
+		export GIT_CEILING_DIRECTORIES &&
+		test_completion "git worktree remove " "" 2>err &&
+		test_must_be_empty err
+	)
+'
+
+test_expect_success '__git_complete_worktree_paths with -C' '
+	test_when_finished "rm -rf to_delete" &&
+	git -C otherrepo worktree add --orphan otherrepo_wt &&
+	run_completion "git -C otherrepo worktree remove " &&
+	grep otherrepo_wt out
+'
+
 test_expect_success 'git switch - with no options, complete local branches and unique remote branch names for DWIM logic' '
 	test_completion "git switch " <<-\EOF
 	branch-in-other Z
