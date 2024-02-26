@@ -889,6 +889,8 @@ static int prepare_to_commit(const char *index_file, const char *prefix,
 	 */
 	s->hints = 0;
 
+	s->cleanup_mode = cleanup_mode;
+
 	if (clean_message_contents)
 		strbuf_stripspace(&sb, '\0');
 

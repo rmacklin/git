@@ -22,6 +22,13 @@ enum color_wt_status {
 	WT_STATUS_MAXSLOT
 };
 
+enum commit_msg_cleanup_mode {
+	COMMIT_MSG_CLEANUP_SPACE,
+	COMMIT_MSG_CLEANUP_NONE,
+	COMMIT_MSG_CLEANUP_SCISSORS,
+	COMMIT_MSG_CLEANUP_ALL
+};
+
 enum untracked_status_type {
 	SHOW_NO_UNTRACKED_FILES,
 	SHOW_NORMAL_UNTRACKED_FILES,
@@ -130,6 +137,7 @@ struct wt_status {
 	int rename_score;
 	int rename_limit;
 	enum wt_status_format status_format;
+	enum commit_msg_cleanup_mode cleanup_mode;
 	struct wt_status_state state;
 	struct object_id oid_commit; /* when not Initial */
 
